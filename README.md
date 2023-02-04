@@ -40,3 +40,6 @@ Connection: close
 ## Hacking
 The tools should be kept small and easy to maintain. In general, one program should **do only one thing** - and that **well**!   
 Functions that get called often should find there way into **util.h** so that all programs can benefit from them.
+
+## Note
+Currently, these tools target **Linux**. **GCC** and **Clang** both will build fine.
