@@ -38,7 +38,7 @@ static char *get_ip(const char *site) {
         error(strerror(errno), __FILE__);
     }
     
-    memset(ip, '\0', IP_BUF);
+    CLEAR(ip, IP_BUF);
 
     if (inet_ntop(AF_INET, &res->ai_addr->sa_data[2], ip, IP_BUF) == NULL)
         inet_ntop(AF_INET, &res->ai_addr->sa_data[1], ip, IP_BUF);
