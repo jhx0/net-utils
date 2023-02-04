@@ -2,6 +2,8 @@
 #define UTIL_H
 
 #include <stdlib.h>
+#include <sys/types.h>
+#include <sys/socket.h>
 
 #define _SILENT (void)
 
@@ -49,13 +51,18 @@ void *xmalloc(uint size) {
 }
 
 char *resolve_domain(const char *host) {
-	struct addrinfo *res = NULL;
+    struct addrinfo hints, *res = NULL;
     char *ip = NULL;
 
-    int ret = getaddrinfo(host, "80", NULL, &res);
-    if(ret) {
+    CLEAR(&hints, sizeof(hints));
+
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+
+    int ret = getaddrinfo(host, "80", &hints, &res);
+    if(ret)
         error(gai_strerror(ret), __FILE__);
-    }
 
     ip = xmalloc(sizeof(char) * IP_BUF);
     

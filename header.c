@@ -38,7 +38,7 @@ static char *get_header(const char *rip) {
 		error(strerror(errno), __FILE__);
 
 	addr.sin_family = AF_INET;
-	inet_aton(rip, &addr.sin_addr.s_addr);
+	inet_aton(rip, (struct in_addr *)&addr.sin_addr.s_addr);
 	addr.sin_port = htons(80);
 
 	if(connect(sock, (struct sockaddr *)&addr, sizeof(struct sockaddr_in)) == -1) {

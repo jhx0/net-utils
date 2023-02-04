@@ -19,10 +19,16 @@ USAGE: %s [-h] DOMAIN\n\
 ";
 
 static char *get_ip(const char *site) {
-    struct addrinfo *res = NULL;
+    struct addrinfo hints, *res = NULL;
     char *ip = NULL;
 
-    int ret = getaddrinfo(site, PORT, NULL, &res);
+    CLEAR(&hints, sizeof(hints));
+
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+
+    int ret = getaddrinfo(site, PORT, &hints, &res);
     if(ret) {
         error(gai_strerror(ret), __FILE__);
     }
@@ -34,7 +40,8 @@ static char *get_ip(const char *site) {
     
     memset(ip, '\0', IP_BUF);
 
-    inet_ntop(AF_INET, &res->ai_addr->sa_data[2], ip, IP_BUF);
+    if (inet_ntop(AF_INET, &res->ai_addr->sa_data[2], ip, IP_BUF) == NULL)
+        inet_ntop(AF_INET, &res->ai_addr->sa_data[1], ip, IP_BUF);
 
     return ip;
 }
