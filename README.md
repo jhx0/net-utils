@@ -43,3 +43,6 @@ Functions that get called often should find there way into **util.h** so that al
 
 ## Note
 Currently, these tools target **Linux**. **GCC** and **Clang** both will build fine.
+
+## Thanks
+**rilysh** (https://github.com/rilysh) - For fixing multiple issues/bugs with the code.
